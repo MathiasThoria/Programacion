@@ -24,6 +24,11 @@ int **ini_matriz(int dim);                 /*inicializa matriz a 0     */
 int **cargar_grafo_rnd();                   /*carga grafo con valores ejemplo*/
 void conectarGrafo(int ** matriz, int dim);
 void forzarAislado(int ** matriz, int dim);
+int verticeAislado(int ** matriz, int dim);
+void verticeAdj(int ** matriz, int dim);
+void gradoMinMax(int ** matriz, int dim);
+void dfs(int ** matriz, int dim);
+void grafoCompleto(int ** matriz, int dim);
 ///////////////////////////////////////////////////////////////////////////////
 
 int main() {
@@ -79,7 +84,39 @@ int main() {
       break;      
     break;
     case 6:
-      
+      if (matriz != NULL)
+        verticeAislado(matriz, dim);        
+      else
+        printf("Matriz vacia, cargue matriz primero.\n");
+      break;
+    break;
+    case 7:
+      if (matriz != NULL)
+        verticeAdy(matriz, dim);                
+      else
+        printf("Matriz vacia, cargue matriz primero.\n");
+      break;
+    break;
+    case 8:
+      if (matriz != NULL)
+        gradoMinMax(matriz, dim);        
+      else
+        printf("Matriz vacia, cargue matriz primero.\n");
+      break;
+    break;
+    case 9:
+      if (matriz != NULL)
+        dfs(matriz, dim);        
+      else
+        printf("Matriz vacia, cargue matriz primero.\n");
+      break;
+    break;
+    case 9:
+      if (matriz != NULL)
+        grafoCompleto(matriz, dim);        
+      else
+        printf("Matriz vacia, cargue matriz primero.\n");
+      break;
     break;
     case 0:
         printf("Chau\n");
@@ -182,6 +219,67 @@ void forzarAislado(int ** matriz, int dim){
   mostrar_matriz(matriz,dim);
 }
 
+int verticeAislado (int ** matriz, int dim){
+  int j,k,nodo,conexo;
+  //
+  pritnf("Ingrese nodo:");
+  scanf("%d",&nodo);
+  for(j=0;j<dim;j++){
+    if (matriz[nodo][j] == 1){
+      conexo = 1;
+      j=dim; //nodo conexo -> salir del for
+    }  
+  }
+  //aristas bidireccionales, igual recorremos en el otro sentido.
+  for(j=0;j<dim;j++){
+    if (matriz[j][nodo] == 1){
+      conexo = 1;
+      j=dim; //nodo conexo -> salir del for
+    }  
+  }
+  if (conexo == 1)
+    printf("El nodo esta conectado");
+  else
+    printf("El nodo esta aislado");
+  //conexo = !conexo;
 
+  return !conexo
+}
 
+void verticeAdj(int ** matriz, int dim){
+//vertices adyacentes de un vertice dado
+  int j,k,nodo,conexo;
+  //
+  pritnf("Ingrese nodo:");
+  scanf("%d",&nodo); 
+  
+  if !(verticeAislado(matriz,dim)){
+    for(j=0;j<dim;j++){
+      if (matriz[nodo][j] == 1){
+        printf("El nodo %d es adyacente a %d",nodo,j);
+        
+      }
+    }  
+  }else{
+    printf("El nodo ingresado esta aislado");
+  }
+}
 
+void gradoMinMax(int ** matriz, int dim){
+  int j,k,grado=0,min=0,max=0;
+
+  for(j=0;j<dim;j++){
+    for(k=0;k<dim;k++){
+      if (matriz[j][k]==1)
+        grado =+ 1;        
+    }
+    if (grado < min){
+      min = grado;
+    }
+    if (grado > maxx){
+      max = grado;      
+    }
+    grado=0;
+  }
+  printf("El grado minimo es %d, el grado maximo es %d", min,max);
+}
